@@ -22,25 +22,29 @@ parser = argparse.ArgumentParser('Calculate a grid of Wigner 3j symbols for give
 
 parser.add_argument('J1', type=int, help='J1')
 parser.add_argument('Jmax', type=int, help='Maximum J')
-
+parser.add_argument('--recalc', action='store_true')
 
 args = parser.parse_args()
 
-import pywigxjpf as wig
+filename = os.path.join(WIG3J_DIR, 'J{}_{}.npy'.format(args.J1, args.Jmax))
 
-wig.wig_table_init(2*args.Jmax, 3)
-wig.wig_temp_init(2*args.Jmax)
+if not os.path.exists(filename) or args.recalc:
 
+    import pywigxjpf as wig
 
-grid = np.zeros((args.Jmax+1, args.Jmax+1))
-
-for j2 in xrange(args.Jmax+1):
-    for j3 in xrange(args.Jmax+1):
-        grid[j2, j3] = wig.wig3jj([2*args.J1, 2*j2, 2*j3, 0, 0, 0])
-
-np.save(os.path.join(WIG3J_DIR, 'J{}_{}.npy'.format(args.J1, args.Jmax)), grid)
+    wig.wig_table_init(2*args.Jmax, 3)
+    wig.wig_temp_init(2*args.Jmax)
 
 
-wig.wig_temp_free()
-wig.wig_table_free()
+    grid = np.zeros((args.Jmax+1, args.Jmax+1))
+
+    for j2 in xrange(args.Jmax+1):
+        for j3 in xrange(args.Jmax+1):
+            grid[j2, j3] = wig.wig3jj([2*args.J1, 2*j2, 2*j3, 0, 0, 0])
+
+    np.save(filename, grid)
+
+
+    wig.wig_temp_free()
+    wig.wig_table_free()
 

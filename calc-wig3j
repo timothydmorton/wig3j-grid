@@ -38,4 +38,4 @@ for j2 in xrange(args.Jmax+1):
     for j3 in xrange(args.Jmax+1):
         grid[j2, j3] = wig.wig3jj([2*args.J1, 2*j2, 2*j3, 0, 0, 0])
 
-np.save(os.path.join(WIG3J_DIR, 'J{}.npy'.format(args.J1)), grid)
+np.save(os.path.join(WIG3J_DIR, 'J{}_{}.npy'.format(args.J1, args.Jmax)), grid)

@@ -13,7 +13,7 @@ import numpy as np
 
 import argparse
 
-WIG3J_DIR = os.getenv('WIG3J', '~/.wig3j')
+WIG3J_DIR = os.getenv('WIG3J', os.path.expanduser('~/.wig3j'))
 
 if not os.path.exists(WIG3J_DIR):
     os.makedirs(WIG3J_DIR)

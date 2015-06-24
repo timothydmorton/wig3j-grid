@@ -43,3 +43,4 @@ np.save(os.path.join(WIG3J_DIR, 'J{}_{}.npy'.format(args.J1, args.Jmax)), grid)
 
 wig.wig_temp_free()
 wig.wig_table_free()
+

@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+"""
+Calculates a grid of Wigner 3j symbols and saves to file
+
+
+For given J1, it will save a Jmax x Jmax array to a numpy 
+save file, under the $WIG3J path.
+
+"""
+
+import os, os.path
+import numpy as np
+
+import argparse
+
+WIG3J_DIR = os.getenv('WIG3J', '~/.wig3j')
+
+if not os.path.exists(WIG3J_DIR):
+    os.makedirs(WIG3J_DIR)
+
+parser = argparse.ArgumentParser('Calculate a grid of Wigner 3j symbols for given J1, and save to file')
+
+parser.add_argument('J1', type=int, help='J1')
+parser.add_argument('Jmax', type=int, help='Maximum J')
+
+
+args = parser.parse_args()
+
+import pywigxjpf as wig
+
+wig.wig_table_init(2*args.Jmax, 3)
+wig.wig_temp_init(2*args.Jmax)
+
+
+grid = np.zeros((args.Jmax+1, args.Jmax+1))
+
+for j2 in xrange(args.Jmax+1):
+    for j3 in xrange(args.Jmax+1):
+        grid[j2, j3] = wig.wig3jj([2*args.J1, 2*j2, 2*j3, 0, 0, 0])
+
+np.save(os.path.join(WIG3J_DIR, 'J{}.npy'.format(args.J1)), grid)

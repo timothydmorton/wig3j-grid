@@ -10,6 +10,7 @@ save file, under the $WIG3J path.
 
 import os, os.path
 import numpy as np
+import logging
 
 import argparse
 
@@ -29,6 +30,7 @@ args = parser.parse_args()
 filename = os.path.join(WIG3J_DIR, 'J{}_{}.npy'.format(args.J1, args.Jmax))
 
 if not os.path.exists(filename) or args.recalc:
+    logging.info('calculating {}...'.format(filename))
 
     import pywigxjpf as wig
 
@@ -48,3 +50,5 @@ if not os.path.exists(filename) or args.recalc:
     wig.wig_temp_free()
     wig.wig_table_free()
 
+else:
+    logging.info('{} already created.  continuing.'.format(filename))

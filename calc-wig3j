@@ -30,7 +30,7 @@ args = parser.parse_args()
 filename = os.path.join(WIG3J_DIR, 'J{}_{}.npy'.format(args.J1, args.Jmax))
 
 if not os.path.exists(filename) or args.recalc:
-    logging.info('calculating {}...'.format(filename))
+    print('calculating {}...'.format(filename))
 
     import pywigxjpf as wig
 
@@ -51,4 +51,4 @@ if not os.path.exists(filename) or args.recalc:
     wig.wig_table_free()
 
 else:
-    logging.info('{} already created.  continuing.'.format(filename))
+    print('{} already created.  continuing.'.format(filename))
